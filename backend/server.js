@@ -3,6 +3,7 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
+import { sequelize } from './models/index.js'
 
 // Routen
 import healthRouter from './routes/health.js'
@@ -11,6 +12,7 @@ import dogsRouter from './routes/dogs.js'
 import tasksRouter from './routes/tasks.js'
 import shopRouter from './routes/shop.js'
 import badgesRouter from './routes/badges.js'
+import bonesRouter from './routes/bones.js'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -57,6 +59,7 @@ app.use('/api/dogs', dogsRouter)
 app.use('/api/tasks', tasksRouter)
 app.use('/api/shop', shopRouter)
 app.use('/api/badges', badgesRouter)
+app.use('/api/bones', bonesRouter)
 
 // ============================================
 // Error Handling
@@ -71,14 +74,21 @@ app.use((err, req, res, next) => {
 })
 
 // ============================================
-// Start Server
+// Database & Start Server
 // ============================================
 
-app.listen(PORT, () => {
-  console.log(`🚀 Happy Dog API Server running on http://localhost:${PORT}`)
-  console.log(`📡 CORS Origin: ${process.env.CORS_ORIGIN || 'http://localhost:5173'}`)
-  console.log(`🗄️  Database: ${process.env.DB_NAME || 'happy_dog'}`)
-  console.log(`✅ Status: Ready to accept requests`)
-})
+sequelize.sync({ alter: process.env.NODE_ENV === 'development' })
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Happy Dog API Server running on http://localhost:${PORT}`)
+      console.log(`📡 CORS Origin: ${process.env.CORS_ORIGIN || 'http://localhost:5173'}`)
+      console.log(`🗄️  Database: ${process.env.DB_NAME || 'happy_dog'}`)
+      console.log(`✅ Status: Ready to accept requests`)
+    })
+  })
+  .catch(err => {
+    console.error('❌ Database connection failed:', err)
+    process.exit(1)
+  })
 
 export default app

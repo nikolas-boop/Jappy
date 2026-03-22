@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import * as shopController from '../controllers/shopController.js'
 
 const router = Router()
 
@@ -6,16 +7,18 @@ const router = Router()
  * GET /api/shop
  * Get all shop items
  */
-router.get('/', (req, res) => {
-  res.json({ message: 'Shop items endpoint' })
-})
+router.get('/', shopController.getShopItems)
 
 /**
  * POST /api/shop/buy
  * Purchase item
  */
-router.post('/buy', (req, res) => {
-  res.json({ message: 'Buy item endpoint' })
-})
+router.post('/buy', shopController.buyItem)
+
+/**
+ * GET /api/shop/inventory/:childId
+ * Get child's inventory
+ */
+router.get('/inventory/:childId', shopController.getInventory)
 
 export default router

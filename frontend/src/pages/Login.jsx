@@ -32,18 +32,15 @@ export default function Login({ onLoginSuccess }) {
       });
 
       if (response.data.success) {
-        // Speichere Session-Daten
         localStorage.setItem('childId', response.data.child.id);
         localStorage.setItem('childName', response.data.child.name);
 
-        // Callback aufrufen
         onLoginSuccess(response.data.child);
 
-        // Weiterleitung zur Hund-Auswahl
         navigate('/dog-selection');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Anmeldung fehlgeschlagen. Versuche es nochmal!');
+      setError(err.response?.data?.message || 'Anmeldung fehlgeschlagen!');
     } finally {
       setLoading(false);
     }
@@ -54,49 +51,32 @@ export default function Login({ onLoginSuccess }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-200 via-pink-200 to-red-200 p-4 flex items-center justify-center">
-      {/* Decorative emojis background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute top-10 left-5 text-6xl opacity-70">🐕</motion.div>
-        <motion.div animate={{ y: [0, 20, 0] }} transition={{ duration: 5, repeat: Infinity }} className="absolute bottom-20 right-10 text-5xl opacity-70">🌟</motion.div>
-      </div>
-
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
       <motion.div
-        initial={{ opacity: 0, scale: 0.85 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
-        className="bg-gradient-to-br from-white via-pink-50 to-purple-50 rounded-4xl shadow-2xl p-8 w-full max-w-lg relative z-10 border-4 border-purple-300"
+        className="w-full max-w-md bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl"
       >
         {/* Header */}
         <div className="text-center mb-8">
-          <motion.h1
-            className="text-7xl mb-4"
-            animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            🐕
-          </motion.h1>
-          <h2 className="text-4xl font-black text-purple-600 mb-3">
-            Willkommen zurück!
-          </h2>
-          <p className="text-xl text-pink-600 font-bold">
-            Dein Hund wartet auf dich! 🐾
-          </p>
+          <div className="text-6xl mb-4">🐕</div>
+          <h2 className="text-3xl font-bold text-white mb-2">Willkommen zurück!</h2>
+          <p className="text-slate-300">Dein Hund wartet auf dich</p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleLogin} className="space-y-6">
+        <form onSubmit={handleLogin} className="space-y-5">
           {/* Name Input */}
           <div>
-            <label className="block text-lg font-black text-gray-800 mb-3 flex items-center gap-2">
-              👤 Dein Name
+            <label className="block text-sm font-semibold text-slate-200 mb-2">
+              Dein Name
             </label>
             <input
               type="text"
               value={childName}
               onChange={(e) => setChildName(e.target.value)}
               placeholder="z.B. Jarno"
-              className="w-full px-5 py-4 text-xl border-4 border-purple-400 rounded-2xl focus:outline-none focus:border-purple-600 focus:ring-4 focus:ring-purple-300 transition bg-white font-bold"
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:bg-white/20 focus:border-white/40 transition text-white placeholder-slate-400"
               disabled={loading}
               maxLength="255"
             />
@@ -104,62 +84,53 @@ export default function Login({ onLoginSuccess }) {
 
           {/* PIN Input */}
           <div>
-            <label className="block text-lg font-black text-gray-800 mb-3 flex items-center gap-2">
-              🔐 Deine PIN
+            <label className="block text-sm font-semibold text-slate-200 mb-2">
+              PIN
             </label>
             <input
               type="password"
               value={pin}
               onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
               placeholder="••••"
-              className="w-full px-5 py-4 text-4xl border-4 border-purple-400 rounded-2xl focus:outline-none focus:border-purple-600 focus:ring-4 focus:ring-purple-300 transition text-center tracking-widest bg-white font-bold"
+              className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:bg-white/20 focus:border-white/40 transition text-white placeholder-slate-400 text-center text-2xl tracking-widest font-semibold"
               disabled={loading}
               maxLength="4"
               inputMode="numeric"
             />
-            <p className="text-sm text-purple-700 mt-2 font-semibold">
-              {pin.length}/4 Ziffern 📱
-            </p>
           </div>
 
-          {/* Error Message */}
+          {/* Error */}
           {error && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-red-300 border-4 border-red-500 text-red-800 p-5 rounded-2xl"
-              role="alert"
+              className="bg-red-500/30 border border-red-500/50 text-red-200 p-4 rounded-lg text-sm font-medium"
             >
-              <p className="font-black text-lg">⚠️ Achtung!</p>
-              <p className="text-base font-bold mt-1">{error}</p>
+              {error}
             </motion.div>
           )}
 
-          {/* Login Button */}
+          {/* Buttons */}
           <motion.button
             type="submit"
             disabled={loading}
-            whileHover={{ scale: !loading ? 1.05 : 1 }}
-            whileTap={{ scale: !loading ? 0.95 : 1 }}
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-black text-xl py-5 px-4 rounded-2xl hover:shadow-2xl transition transform disabled:opacity-50 disabled:cursor-not-allowed border-4 border-purple-600 shadow-lg"
+            whileHover={{ opacity: !loading ? 0.9 : 1 }}
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 px-4 rounded-lg hover:shadow-lg transition disabled:opacity-50"
           >
-            {loading ? '🔄 Anmelden...' : '✨ Anmelden - Los geht\'s!'}
+            {loading ? '⏳ Anmelden...' : 'Anmelden'}
           </motion.button>
 
-          {/* Back Button */}
-          <motion.button
+          <button
             type="button"
             onClick={handleBack}
-            whileHover={{ scale: 1.02 }}
-            className="w-full bg-yellow-300 text-gray-800 font-black text-lg py-4 px-4 rounded-2xl hover:bg-yellow-400 transition border-4 border-yellow-500 shadow-lg"
+            className="w-full bg-white/10 hover:bg-white/20 text-slate-200 font-semibold py-3 px-4 rounded-lg transition border border-white/20"
           >
-            ← Zurück zur Startseite
-          </motion.button>
+            Zurück
+          </button>
         </form>
 
-        {/* Footer */}
-        <p className="text-center text-base text-purple-700 mt-8 font-bold bg-pink-100 rounded-2xl p-4 border-2 border-purple-300">
-          ✨ Noch kein Konto? Erstelle ein neues Profil auf der Startseite!
+        <p className="text-xs text-slate-400 text-center mt-6">
+          Noch kein Konto? Gib auf der Startseite ein neues Profil erstellen!
         </p>
       </motion.div>
     </div>

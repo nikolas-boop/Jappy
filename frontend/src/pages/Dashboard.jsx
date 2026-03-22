@@ -5,15 +5,12 @@ import apiClient from '../services/apiClient';
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const childId = localStorage.getItem('childId');
   const childName = localStorage.getItem('childName');
-  const dogId = localStorage.getItem('dogId');
   const dogName = localStorage.getItem('dogName');
-  const dogBreed = localStorage.getItem('dogBreed');
+  const dogId = localStorage.getItem('dogId');
 
   const [dog, setDog] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchDog = async () => {
@@ -28,7 +25,6 @@ export default function Dashboard() {
           setDog(response.data.dog);
         }
       } catch (err) {
-        setError('Konnte Hund-Daten nicht laden');
         console.error(err);
       } finally {
         setLoading(false);
@@ -45,7 +41,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-green-100 to-emerald-100 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
         <motion.div
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
@@ -58,97 +54,70 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-100 to-emerald-100 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6">
       <div className="max-w-2xl mx-auto">
-        {/* Header mit Logout */}
+        {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-green-600">🐕 {dogName || 'Mein Hund'}</h1>
+          <h1 className="text-3xl font-bold text-white">🐕 {dogName}</h1>
           <button
             onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition"
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition"
           >
             Logout
           </button>
         </div>
 
-        {/* Welcome Message */}
+        {/* Welcome Card */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white rounded-3xl shadow-2xl p-8 mb-8"
+          className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-8 mb-8"
         >
-          <h2 className="text-3xl font-bold text-center text-green-600 mb-4">
-            🎉 Willkommen, {childName}!
-          </h2>
-
-          <p className="text-center text-lg text-gray-700 mb-6">
-            Dein neuer Freund <span className="font-bold text-green-600">{dogName}</span> ({dogBreed}) wartet auf dich! 
+          <p className="text-slate-200 mb-4">
+            Willkommen zurück, <span className="font-bold text-amber-200">{childName}</span>!
           </p>
-
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            <div className="bg-yellow-100 rounded-xl p-4 text-center">
-              <p className="text-sm text-gray-600 mb-2">Hunger</p>
-              <p className="text-3xl font-bold text-yellow-600">
-                {dog?.hunger || '-'}%
-              </p>
-            </div>
-            <div className="bg-pink-100 rounded-xl p-4 text-center">
-              <p className="text-sm text-gray-600 mb-2">Freude</p>
-              <p className="text-3xl font-bold text-pink-600">
-                {dog?.happiness || '-'}%
-              </p>
-            </div>
-            <div className="bg-red-100 rounded-xl p-4 text-center">
-              <p className="text-sm text-gray-600 mb-2">Gesundheit</p>
-              <p className="text-3xl font-bold text-red-600">
-                {dog?.health || '-'}%
-              </p>
-            </div>
-            <div className="bg-purple-100 rounded-xl p-4 text-center">
-              <p className="text-sm text-gray-600 mb-2">Level</p>
-              <p className="text-3xl font-bold text-purple-600">
-                {dog?.level || '1'}
-              </p>
-            </div>
-          </div>
-
-          <p className="text-center text-sm text-gray-600">
-            💡 Dieser Dashboard wird noch erweitert!<br />
-            Die folgenden Features kommen bald:
-          </p>
-
-          <ul className="mt-4 space-y-2 text-sm text-gray-700">
-            <li>✅ Aufgaben (Gassi gehen, Füttern, Spielen, Streicheln)</li>
-            <li>✅ Shop (Items kaufen)</li>
-            <li>✅ Achievements (Errungenschaften freischalten)</li>
-            <li>✅ Mini-Games (Speichern & Puzzles)</li>
-          </ul>
+          <p className="text-slate-300">Dein Hund wartet auf dich...</p>
         </motion.div>
 
-        {/* Error Display */}
-        {error && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded mb-8"
-          >
-            <p className="font-semibold">⚠️ Fehler</p>
-            <p>{error}</p>
-          </motion.div>
-        )}
+        {/* Dog Stats Grid */}
+        <div className="grid grid-cols-2 gap-4 mb-8">
+          {[
+            { label: 'Hunger', value: dog?.hunger || 50, icon: '🍖', color: 'from-orange-500 to-red-500' },
+            { label: 'Freude', value: dog?.happiness || 80, icon: '😊', color: 'from-pink-500 to-red-500' },
+            { label: 'Gesundheit', value: dog?.health || 100, icon: '❤️', color: 'from-green-500 to-emerald-500' },
+            { label: 'Level', value: dog?.level || 1, icon: '⭐', color: 'from-blue-500 to-purple-500', max: 100 },
+          ].map((stat) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white/10 backdrop-blur rounded-lg p-4 border border-white/20"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">{stat.icon}</span>
+                <span className="text-sm text-slate-300 font-semibold">{stat.value}%</span>
+              </div>
+              <div className="text-sm text-slate-300 mb-2">{stat.label}</div>
+              <div className="w-full bg-white/10 rounded-full h-2">
+                <div
+                  className={`h-2 rounded-full bg-gradient-to-r ${stat.color} transition-all`}
+                  style={{ width: `${stat.value}%` }}
+                />
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
-        {/* Info Box */}
+        {/* Coming Soon */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="bg-blue-100 rounded-2xl p-6 text-center"
+          className="bg-blue-500/20 border border-blue-500/50 rounded-lg p-6 text-center"
         >
-          <p className="text-lg text-blue-900 font-semibold">
-            🚀 Phase 3 noch nicht komplett!
-          </p>
-          <p className="text-sm text-blue-800 mt-2">
-            Das Dashboard wird in den nächsten Schritten mit Spielelementen, Aufgaben und Shop erweitert.
+          <p className="text-slate-200 font-semibold mb-2">🚀 Dashboard wird erweitert...</p>
+          <p className="text-sm text-slate-300">
+            Bald: Aufgaben • Shop • Achievements • Mini-Games
           </p>
         </motion.div>
       </div>

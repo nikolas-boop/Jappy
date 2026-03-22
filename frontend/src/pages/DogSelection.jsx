@@ -13,71 +13,62 @@ export default function DogSelection() {
   const childId = localStorage.getItem('childId');
   const childName = localStorage.getItem('childName');
 
-  // Verfügbare Hundrassen mit deutschen Namen und Beschreibungen
   const breeds = [
     {
       id: 1,
       dbName: 'Deutscher Schäferhund',
-      germanName: 'Deutscher Schäferhund',
+      germanName: 'Deutscher\nSchäferhund',
       emoji: '🐕',
-      description: 'Intelligent und treu. Ein großartiger Beschützer!',
-      characteristics: 'Stark, klug, loyal',
+      description: 'Intelligent und treu',
     },
     {
       id: 2,
       dbName: 'Labrador',
       germanName: 'Labrador',
       emoji: '🐕',
-      description: 'Freundlich und verspielt. Perfekt für Abenteuer!',
-      characteristics: 'Freundlich, energisch, liebevoll',
+      description: 'Freundlich und verspielt',
     },
     {
       id: 3,
       dbName: 'Golden Retriever',
-      germanName: 'Golden Retriever',
+      germanName: 'Golden\nRetriever',
       emoji: '🐕',
-      description: 'Der goldene Begleiter. Super gutes Wesen!',
-      characteristics: 'Sanft, intelligent, zärtlich',
+      description: 'Sanft und liebevoll',
     },
     {
       id: 4,
       dbName: 'Dackel',
       germanName: 'Dackel',
       emoji: '🐕‍🦺',
-      description: 'Klein aber oho! Mutig und lustig. ❤️',
-      characteristics: 'Klein, mutig, witzig',
+      description: 'Klein aber mutig',
     },
     {
       id: 5,
       dbName: 'Beagle',
       germanName: 'Beagle',
       emoji: '🐕',
-      description: 'Neugierig und verspielt. Ständig auf Schnüffel-Tour!',
-      characteristics: 'Neugierig, lebendig, süß',
+      description: 'Neugierig und lebendig',
     },
     {
       id: 6,
       dbName: 'Pudel',
       germanName: 'Pudel',
       emoji: '🐩',
-      description: 'Elegant und intelligent. Ein modischer Freund!',
-      characteristics: 'Intelligent, elegant, gehorsam',
+      description: 'Elegant und gehorsam',
     },
     {
       id: 7,
       dbName: 'Husky',
       germanName: 'Husky',
       emoji: '🐕',
-      description: 'Wunderschöne blaue Augen. Super aktiv!',
-      characteristics: 'Aktiv, wach, unabhängig',
+      description: 'Aktiv und wach',
     },
     {
       id: 8,
       dbName: 'Englische Bulldogge',
-      germanName: 'Englische Bulldogge',
+      germanName: 'Bulldogge',
       emoji: '🐕',
-      description: 'Gemütlich und kuschelig. Der perfekte Chill-Partner!',
-      characteristics: 'Ruhig, liebevoll, stur',
+      description: 'Gemütlich und kuschelig',
     },
   ];
 
@@ -114,170 +105,108 @@ export default function DogSelection() {
       });
 
       if (response.data.success) {
-        // Speichere dog-Daten
         localStorage.setItem('dogId', response.data.dog.id);
         localStorage.setItem('dogBreed', response.data.dog.breed);
         localStorage.setItem('dogName', response.data.dog.dog_name);
 
-        // Weiterleitung zum Dashboard
         navigate('/dashboard');
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Hund konnte nicht erstellt werden. Versuche es nochmal!';
+      const errorMessage = err.response?.data?.message || 'Hund konnte nicht erstellt werden!';
       setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-cyan-100 p-6">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-6">
+      <div className="max-w-5xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-10"
+          className="text-center mb-12"
         >
-          <h1 className="text-5xl font-bold text-blue-600 mb-2">🐕 Wähle deinen Hund!</h1>
-          <p className="text-xl text-gray-700">
-            Hallo <span className="font-bold text-purple-600">{childName}</span>! Welcher Hund soll dein neuer Freund sein?
+          <h1 className="text-4xl font-bold text-white mb-2">Wähle deinen Hund</h1>
+          <p className="text-slate-300">
+            Hallo <span className="text-amber-200 font-semibold">{childName}</span>! Welcher Freund soll es sein?
           </p>
         </motion.div>
 
-        {/* Breed Selection Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
-        >
-          {breeds.map((breed) => (
-            <motion.div
+        {/* Breed Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          {breeds.map((breed, idx) => (
+            <motion.button
               key={breed.id}
-              variants={itemVariants}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: idx * 0.05 }}
               onClick={() => handleSelectBreed(breed)}
-              className={`cursor-pointer rounded-2xl p-6 transition transform hover:scale-105 ${
+              className={`p-4 rounded-lg transition ${
                 selectedBreed?.id === breed.id
-                  ? 'bg-blue-500 text-white shadow-2xl scale-105'
-                  : 'bg-white text-gray-900 shadow-lg hover:shadow-2xl'
+                  ? 'bg-blue-600 border-2 border-blue-400 scale-105'
+                  : 'bg-white/10 border border-white/20 hover:bg-white/20'
               }`}
             >
-              <div className="text-center">
-                {/* Emoji */}
-                <div className="text-6xl mb-3">{breed.emoji}</div>
-
-                {/* Breed Name */}
-                <h3 className="text-lg font-bold mb-2">{breed.germanName}</h3>
-
-                {/* Description */}
-                <p className={`text-sm mb-3 ${selectedBreed?.id === breed.id ? 'text-blue-100' : 'text-gray-600'}`}>
-                  {breed.description}
-                </p>
-
-                {/* Characteristics */}
-                <p className={`text-xs font-semibold ${selectedBreed?.id === breed.id ? 'text-blue-200' : 'text-gray-500'}`}>
-                  {breed.characteristics}
-                </p>
-
-                {/* Selected Badge */}
-                {selectedBreed?.id === breed.id && (
-                  <div className="mt-4 text-2xl">✅</div>
-                )}
-              </div>
-            </motion.div>
+              <div className="text-4xl mb-2">{breed.emoji}</div>
+              <h3 className="text-sm font-bold text-white whitespace-pre-line leading-tight mb-1">
+                {breed.germanName}
+              </h3>
+              <p className="text-xs text-slate-300">{breed.description}</p>
+            </motion.button>
           ))}
-        </motion.div>
+        </div>
 
         {/* Name Input Section */}
         {selectedBreed && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-3xl shadow-2xl p-8 max-w-md mx-auto mb-8"
+            className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-8 max-w-md mx-auto mb-8"
           >
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              Wie heißt dein {selectedBreed.germanName}?
+            <h2 className="text-2xl font-bold text-white mb-6 text-center">
+              Wie heißt dein {selectedBreed.germanName.replace(/\n/g, ' ')}?
             </h2>
 
             <form onSubmit={handleCreateDog} className="space-y-6">
-              {/* Name Input */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Name deines Hundes
-                </label>
-                <input
-                  type="text"
-                  value={dogName}
-                  onChange={(e) => setDogName(e.target.value)}
-                  placeholder={`z.B. Max, Bella, Rex...`}
-                  className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
-                  disabled={loading}
-                  autoFocus
-                  maxLength="255"
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  {dogName.length}/255 Zeichen
-                </p>
-              </div>
+              <input
+                type="text"
+                value={dogName}
+                onChange={(e) => setDogName(e.target.value)}
+                placeholder="z.B. Max"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:bg-white/20 focus:border-white/40 transition text-white placeholder-slate-400"
+                disabled={loading}
+                autoFocus
+                maxLength="255"
+              />
 
-              {/* Error Message */}
               {error && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded"
-                  role="alert"
+                  className="bg-red-500/30 border border-red-500/50 text-red-200 p-3 rounded-lg text-sm"
                 >
-                  <p className="font-semibold">⚠️ Fehler</p>
-                  <p className="text-sm">{error}</p>
+                  {error}
                 </motion.div>
               )}
 
-              {/* Create Button */}
-              <button
+              <motion.button
                 type="submit"
                 disabled={loading || !dogName.trim()}
-                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-3 px-4 rounded-xl hover:shadow-lg hover:scale-105 transition transform disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={{ opacity: dogName.trim() && !loading ? 0.9 : 1 }}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-3 px-4 rounded-lg hover:shadow-lg transition disabled:opacity-50"
               >
-                {loading ? '🔄 Erstelle meinen Hund...' : `🐕 ${selectedBreed.germanName} mitnehmen!`}
-              </button>
-
-              {/* Info Text */}
-              <p className="text-xs text-center text-gray-600">
-                💡 Du kannst den Namen später jederzeit ändern!
-              </p>
+                {loading ? '⏳ Erstelle Hund...' : 'Hund erstellen'}
+              </motion.button>
             </form>
           </motion.div>
         )}
 
-        {/* Help Text when no breed selected */}
         {!selectedBreed && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center mt-10"
-          >
-            <p className="text-lg text-gray-700 bg-blue-100 rounded-xl p-6 inline-block">
-              👆 Klick auf einen Hund oben, um ihn auszuwählen!
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center mt-10">
+            <p className="text-slate-300 bg-white/10 rounded-lg p-4 inline-block">
+              ☝️ Klick auf einen Hund, um ihn auszuwählen
             </p>
           </motion.div>
         )}

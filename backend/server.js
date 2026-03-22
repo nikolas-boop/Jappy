@@ -80,9 +80,9 @@ app.use((err, req, res, next) => {
 sequelize.sync({ alter: process.env.NODE_ENV === 'development' })
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`🚀 Happy Dog API Server running on http://localhost:${PORT}`)
+      console.log(`🚀 Jappy API Server running on http://localhost:${PORT}`)
       console.log(`📡 CORS Origin: ${process.env.CORS_ORIGIN || 'http://localhost:5173'}`)
-      console.log(`🗄️  Database: ${process.env.DB_NAME || 'happy_dog'}`)
+      console.log(`🗄️  Database: ${process.env.DB_NAME || 'jappy'}`)
       console.log(`✅ Status: Ready to accept requests`)
     })
   })

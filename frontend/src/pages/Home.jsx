@@ -11,7 +11,7 @@ function Home() {
         
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md">
           <p className="text-lg text-gray-600 mb-6">
-            Willkommen zum Happy-Spiel! Hier kannst du dir einen Hund aussuchen und dich um ihn kümmern.
+            Willkommen zu Jappy! Hier kannst du dir einen Hund aussuchen und dich um ihn kümmern.
           </p>
           
           <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg mb-3">

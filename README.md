@@ -1,4 +1,4 @@
-# 🐕 Happy – Virtuelle Haustier-Webapp für Kinder
+# 🐕 Jappy – Jarnos Spiel im Handy
 
 Eine kindgerechte React-Webapp, in der Spieler (ab ca. 9 Jahren) sich einen virtuellen Hund aussuchen und pflegen: Füttern, Gassi gehen, streicheln, spielen – und mit verdienten "Knochen" Items im Shop kaufen.
 
@@ -55,7 +55,7 @@ Eine kindgerechte React-Webapp, in der Spieler (ab ca. 9 Jahren) sich einen virt
 4. **Datenbank initialisieren**
    ```bash
    # Lokal MariaDB starten, dann:
-   mysql -u root -p happy_dog < ../database/schema.sql
+   mysql -u root -p jappy < ../database/schema.sql
    ```
 
 5. **.env Dateien erstellen**
@@ -69,7 +69,7 @@ Eine kindgerechte React-Webapp, in der Spieler (ab ca. 9 Jahren) sich einen virt
    DB_HOST=localhost
    DB_USER=root
    DB_PASSWORD=your_password
-   DB_NAME=happy_dog
+   DB_NAME=jappy
    SESSION_SECRET=dev_secret_key
    ```
 
@@ -153,7 +153,7 @@ Dies erstellt einen `production/`-Ordner mit allem, was auf den Server muss:
    ```bash
    cd api
    npm install
-   npm start  # oder pm2 start server.js --name "happy-api"
+   npm start  # oder pm2 start server.js --name "jappy-api"
    ```
 
 6. **Frontend servieren**

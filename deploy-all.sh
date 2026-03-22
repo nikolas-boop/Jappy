@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Happy Dog App - Complete Deploy Script"
+echo "🚀 Jappy - Jarnos Spiel im Handy - Deploy Script"
 echo "=========================================="
 echo ""
 

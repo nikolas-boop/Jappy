@@ -1,5 +1,5 @@
 {
-  "name": "happy-dog-backend",
+  "name": "jappy-backend",
   "version": "1.0.0",
   "description": "Backend API for Happy Dog virtual pet app",
   "main": "server.js",

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Happy Dog App - Deploy Script (Node.js)
+ * Jappy - Jarnos Spiel im Handy - Deploy Script (Node.js)
  * Builds Frontend + Syncs Backend + Copies Database
  */
 
@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-console.log('\x1b[32m🚀 Happy Dog App - Deploy Script\x1b[0m');
+console.log('\x1b[32m🚀 Jappy - Deploy Script\x1b[0m');
 console.log('\x1b[32m===================================\x1b[0m\n');
 
 const ROOT = __dirname;

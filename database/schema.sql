@@ -1,11 +1,11 @@
 -- ============================================
--- Happy Dog App - Database Schema
+-- Jappy - Jarnos Spiel im Handy - Database Schema
 -- ============================================
--- MariaDB/MySQL Schema for Happy Dog Virtual Pet App
+-- MariaDB/MySQL Schema for Jappy Virtual Pet App
 
 -- Create database (if not exists)
--- CREATE DATABASE IF NOT EXISTS happy_dog;
--- USE happy_dog;
+-- CREATE DATABASE IF NOT EXISTS jappy;
+-- USE jappy;
 
 -- ============================================
 -- 1. CHILDREN (Spieler/Profile)

@@ -1,4 +1,11 @@
 import axios from 'axios'
+import { mockApi } from './mockApi'
+
+// ============================================
+// API Configuration
+// ============================================
+
+const USE_MOCK = import.meta.env.MODE === 'development' && import.meta.env.VITE_USE_MOCK_API === 'true'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 
@@ -9,6 +16,49 @@ const apiClient = axios.create({
   },
   withCredentials: true
 })
+
+// ============================================
+// Interceptor: Use Mock API if enabled
+// ============================================
+
+if (USE_MOCK) {
+  console.log('🔧 Mock API aktiviert für lokale Entwicklung')
+  
+  apiClient.interceptors.request.use(async config => {
+    // Route POST /children to mockApi
+    if (config.method === 'post' && config.url.includes('/children') && !config.url.includes('/login')) {
+      const response = await mockApi.createChild(config.data.name, config.data.pin)
+      throw { response: { status: 200, data: response.data } }
+    }
+    // Route POST /children/login
+    if (config.method === 'post' && config.url.includes('/children/login')) {
+      const response = await mockApi.loginChild(config.data.name, config.data.pin)
+      throw { response: { status: 200, data: response.data } }
+    }
+    // Route POST /dogs
+    if (config.method === 'post' && config.url.includes('/dogs') && !config.url.includes('/api/dogs/')) {
+      const response = await mockApi.createDog(config.data.childId, config.data.breed, config.data.dogName)
+      throw { response: { status: 200, data: response.data } }
+    }
+    // Route GET /dogs/:id
+    if (config.method === 'get' && config.url.match(/\/dogs\/\d+$/)) {
+      const dogId = config.url.split('/').pop()
+      const response = await mockApi.getDog(dogId)
+      throw { response: { status: 200, data: response.data } }
+    }
+    return config
+  })
+
+  apiClient.interceptors.response.use(
+    response => response,
+    error => {
+      if (error.response?.status === 200) {
+        return Promise.resolve(error.response)
+      }
+      return Promise.reject(error)
+    }
+  )
+}
 
 // ============================================
 // Health Check

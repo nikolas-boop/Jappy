@@ -81,93 +81,112 @@ export default function CreateProfile({ onCreateSuccess }) {
     pin === pinConfirm;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-100 to-emerald-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-green-200 via-emerald-200 to-teal-200 p-4 flex items-center justify-center">
+      {/* Decorative emojis background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute top-5 left-10 text-6xl opacity-70">🐶</motion.div>
+        <motion.div animate={{ y: [0, 20, 0] }} transition={{ duration: 5, repeat: Infinity }} className="absolute top-20 right-5 text-6xl opacity-70">🦴</motion.div>
+        <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 6, repeat: Infinity }} className="absolute bottom-20 left-5 text-5xl opacity-70">🌟</motion.div>
+      </div>
+
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.85 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md"
+        transition={{ duration: 0.6 }}
+        className="bg-gradient-to-br from-white via-green-50 to-emerald-50 rounded-4xl shadow-2xl p-8 w-full max-w-lg relative z-10 border-4 border-green-300"
       >
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl mb-2 animate-bounce">🐕</h1>
-          <h2 className="text-3xl font-bold text-green-600 mb-2">Willkommen bei Jappy!</h2>
-          <p className="text-gray-600">Erstelle dein neues Profil</p>
+          <motion.h1
+            className="text-7xl mb-4"
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            🎉
+          </motion.h1>
+          <h2 className="text-4xl font-black text-green-600 mb-3">
+            Willkommen bei Jappy!
+          </h2>
+          <p className="text-xl text-emerald-600 font-bold">
+            Erstelle dein Geheimnis-Profil! 🤫
+          </p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleCreate} className="space-y-6">
           {/* Name Input */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Dein Name
+            <label className="block text-lg font-black text-gray-800 mb-3 flex items-center gap-2">
+              👤 Dein Name
             </label>
             <input
               type="text"
               value={childName}
               onChange={(e) => setChildName(e.target.value)}
               placeholder="z.B. Jarno"
-              className="w-full px-4 py-3 border-2 border-green-300 rounded-xl focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition"
+              className="w-full px-5 py-4 text-xl border-4 border-green-400 rounded-2xl focus:outline-none focus:border-green-600 focus:ring-4 focus:ring-green-300 transition bg-white font-bold"
               disabled={loading}
               autoFocus
               maxLength="255"
             />
-            <p className="text-xs text-gray-500 mt-1">
-              {childName.trim().length}/255 Zeichen
+            <p className="text-sm text-emerald-700 mt-2 font-semibold">
+              {childName.trim().length}/255 Zeichen ✏️
             </p>
           </div>
 
           {/* PIN Input */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Deine PIN (4 Ziffern)
+            <label className="block text-lg font-black text-gray-800 mb-3 flex items-center gap-2">
+              🔐 Deine geheime PIN (4 Ziffern)
             </label>
             <input
               type="password"
               value={pin}
               onChange={(e) => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
               placeholder="••••"
-              className="w-full px-4 py-3 border-2 border-green-300 rounded-xl focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition text-center text-2xl tracking-widest"
+              className="w-full px-5 py-4 text-4xl border-4 border-green-400 rounded-2xl focus:outline-none focus:border-green-600 focus:ring-4 focus:ring-green-300 transition text-center tracking-widest bg-white font-bold"
               disabled={loading}
               maxLength="4"
               inputMode="numeric"
             />
-            <p className="text-xs text-gray-500 mt-1">
-              {pin.length}/4 Ziffern eingegeben
+            <p className="text-sm text-emerald-700 mt-2 font-semibold">
+              {pin.length}/4 Ziffern eingegeben 📱
             </p>
           </div>
 
           {/* PIN Confirm Input */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              PIN wiederholen
+            <label className="block text-lg font-black text-gray-800 mb-3 flex items-center gap-2">
+              🔐 PIN wiederholen
             </label>
             <input
               type="password"
               value={pinConfirm}
               onChange={(e) => setPinConfirm(e.target.value.replace(/\D/g, '').slice(0, 4))}
               placeholder="••••"
-              className="w-full px-4 py-3 border-2 border-green-300 rounded-xl focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition text-center text-2xl tracking-widest"
+              className="w-full px-5 py-4 text-4xl border-4 border-green-400 rounded-2xl focus:outline-none focus:border-green-600 focus:ring-4 focus:ring-green-300 transition text-center tracking-widest bg-white font-bold"
               disabled={loading}
               maxLength="4"
               inputMode="numeric"
             />
-            <p className="text-xs text-gray-500 mt-1">
-              {pinConfirm.length}/4 Ziffern eingegeben
+            <p className="text-sm text-emerald-700 mt-2 font-semibold">
+              {pinConfirm.length}/4 Ziffern eingegeben 📱
             </p>
           </div>
 
           {/* PIN Match Indicator */}
           {pin && pinConfirm && (
-            <div
-              className={`p-3 rounded-lg text-sm font-semibold ${
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className={`p-4 rounded-2xl text-lg font-black border-4 ${
                 pin === pinConfirm
-                  ? 'bg-green-100 text-green-700'
-                  : 'bg-red-100 text-red-700'
+                  ? 'bg-green-200 text-green-700 border-green-400'
+                  : 'bg-red-200 text-red-700 border-red-400'
               }`}
             >
               {pin === pinConfirm ? '✅ PINs stimmen überein!' : '❌ PINs stimmen nicht überein!'}
-            </div>
+            </motion.div>
           )}
 
           {/* Error Message */}
@@ -175,36 +194,39 @@ export default function CreateProfile({ onCreateSuccess }) {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded"
+              className="bg-red-300 border-4 border-red-500 text-red-800 p-5 rounded-2xl"
               role="alert"
             >
-              <p className="font-semibold">⚠️ Fehler</p>
-              <p className="text-sm">{error}</p>
+              <p className="font-black text-lg">⚠️ Achtung!</p>
+              <p className="text-base font-bold mt-1">{error}</p>
             </motion.div>
           )}
 
           {/* Create Button */}
-          <button
+          <motion.button
             type="submit"
             disabled={loading || !isFormValid}
-            className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-3 px-4 rounded-xl hover:shadow-lg hover:scale-105 transition transform disabled:opacity-50 disabled:cursor-not-allowed"
+            whileHover={{ scale: isFormValid && !loading ? 1.05 : 1 }}
+            whileTap={{ scale: isFormValid && !loading ? 0.95 : 1 }}
+            className="w-full bg-gradient-to-r from-green-400 to-emerald-500 text-white font-black text-xl py-5 px-6 rounded-2xl hover:shadow-2xl transition transform disabled:opacity-50 disabled:cursor-not-allowed border-4 border-green-600 shadow-lg"
           >
-            {loading ? '🔄 Erstelle Profil...' : '🎉 Neues Profil erstellen'}
-          </button>
+            {loading ? '🔄 Erstelle Profil...' : '🎉 Profil erstellen - Los gehts!'}
+          </motion.button>
 
           {/* Back Button */}
-          <button
+          <motion.button
             type="button"
             onClick={handleBack}
-            className="w-full bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-xl hover:bg-gray-300 transition"
+            whileHover={{ scale: 1.02 }}
+            className="w-full bg-yellow-300 text-gray-800 font-black text-lg py-4 px-6 rounded-2xl hover:bg-yellow-400 transition border-4 border-yellow-500 shadow-lg"
           >
-            ← Zurück
-          </button>
+            ← Zurück zur Startseite
+          </motion.button>
         </form>
 
         {/* Footer */}
-        <p className="text-center text-xs text-gray-500 mt-6">
-          💡 Merke dir deine PIN! Du brauchst sie zum Anmelden.
+        <p className="text-center text-base text-emerald-700 mt-8 font-bold bg-green-100 rounded-2xl p-4 border-2 border-green-400">
+          💡 Merke dir deine PIN! Du brauchst sie zum Anmelden. Schreib sie auf! 📝
         </p>
       </motion.div>
     </div>

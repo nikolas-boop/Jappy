@@ -5,6 +5,8 @@ import { useState } from 'react'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import CreateProfile from './pages/CreateProfile'
+import DogSelection from './pages/DogSelection'
+import Dashboard from './pages/Dashboard'
 
 function App() {
   const [currentChild, setCurrentChild] = useState(null)
@@ -24,7 +26,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
           <Route path="/create-profile" element={<CreateProfile onCreateSuccess={handleCreateSuccess} />} />
-          {/* Dog Selection und weitere Routes werden später hinzugefügt */}
+          <Route path="/dog-selection" element={<DogSelection />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          {/* Weitere Routes werden später hinzugefügt */}
         </Routes>
       </div>
     </Router>
